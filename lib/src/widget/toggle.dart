@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-
-import '../neumorphic_box_shape.dart';
-import '../theme/neumorphic_theme.dart';
-import 'container.dart';
+import 'package:flutter_neumorphic/src/widget/container.dart';
 
 class NeumorphicToggleStyle {
   final double? depth;
@@ -195,9 +190,7 @@ class NeumorphicToggle extends StatelessWidget {
             heightFactor: 1,
             child: Neumorphic(
               style: NeumorphicStyle(
-                boxShape: NeumorphicBoxShape.roundRect(
-                    this.style?.borderRadius ??
-                        BorderRadius.all(Radius.circular(12))),
+                boxShape: NeumorphicBoxShape.roundRect(this.style?.borderRadius ?? BorderRadius.all(Radius.circular(12))),
               ),
               margin: this.padding,
               child: this.thumb,
@@ -235,14 +228,11 @@ class NeumorphicToggle extends StatelessWidget {
   }
 
   Widget _backgroundAtIndex(int index) {
-    return Expanded(
-        flex: 1, child: this.children[index].background ?? SizedBox.expand());
+    return Expanded(flex: 1, child: this.children[index].background ?? SizedBox.expand());
   }
 
   Widget _foregroundAtIndex(int index) {
-    Widget? child = (!this.displayForegroundOnlyIfSelected) ||
-            (this.displayForegroundOnlyIfSelected &&
-                this.selectedIndex == index)
+    Widget? child = (!this.displayForegroundOnlyIfSelected) || (this.displayForegroundOnlyIfSelected && this.selectedIndex == index)
         ? this.children[index].foreground
         : SizedBox.expand();
     //wrap with opacity animation
@@ -254,29 +244,27 @@ class NeumorphicToggle extends StatelessWidget {
         child: child,
       );
     }
+    
     return Expanded(
-        flex: 1,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            _notifyOnChange(index);
-          },
-          child: child,
-        ));
+      flex: 1,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _notifyOnChange(index),
+        child: child,
+      ),
+    );
   }
 
   Widget _background(BuildContext context) {
     return Neumorphic(
       style: NeumorphicStyle(
-          boxShape: NeumorphicBoxShape.roundRect(this.style?.borderRadius ??
-              BorderRadius.all(Radius.circular(12))),
+          boxShape: NeumorphicBoxShape.roundRect(this.style?.borderRadius ?? BorderRadius.all(Radius.circular(12))),
           color: this.style?.backgroundColor,
           disableDepth: this.style?.disableDepth,
           depth: _getTrackDepth(context),
           shape: NeumorphicShape.flat,
           border: this.style?.border ?? NeumorphicBorder.none(),
-          lightSource: this.style?.lightSource ??
-              NeumorphicTheme.currentTheme(context).lightSource),
+          lightSource: this.style?.lightSource ?? NeumorphicTheme.currentTheme(context).lightSource),
       child: SizedBox.expand(),
     );
   }

@@ -1,15 +1,10 @@
 import 'dart:ui' as ui show FontFeature;
 
 import 'package:flutter/material.dart' as material;
-import 'package:flutter/widgets.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_neumorphic/src/decoration/neumorphic_text_decorations.dart';
+import 'package:flutter_neumorphic/src/widget/container.dart';
 
-import '../../flutter_neumorphic.dart';
-import '../theme/neumorphic_theme.dart';
-
-export '../decoration/neumorphic_decorations.dart';
-export '../neumorphic_box_shape.dart';
-export '../theme/neumorphic_theme.dart';
 
 class NeumorphicTextStyle {
   final bool inherit;

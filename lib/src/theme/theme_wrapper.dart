@@ -1,9 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
 import 'theme.dart';
-
 export 'theme.dart';
 
 /// A immutable contained by the NeumorhicTheme
@@ -24,16 +22,9 @@ class ThemeWrapper {
       //forced to use DARK by user
       themeMode == ThemeMode.dark ||
       //The setting indicating the current brightness mode of the host platform. If the platform has no preference, platformBrightness defaults to Brightness.light.
-      (themeMode == ThemeMode.system &&
-          window.platformBrightness == Brightness.dark);
+      (themeMode == ThemeMode.system && window.platformBrightness == Brightness.dark);
 
-  NeumorphicThemeData? get current {
-    if (useDark) {
-      return darkTheme;
-    } else {
-      return theme;
-    }
-  }
+  NeumorphicThemeData? get current => useDark ? darkTheme : theme;
 
   @override
   bool operator ==(Object other) =>
