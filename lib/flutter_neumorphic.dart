@@ -1,12 +1,6 @@
 library flutter_neumorphic;
 
-export 'package:flutter/material.dart'
-    show
-        TextTheme,
-        ThemeMode,
-        RouteFactory,
-        GenerateAppTitle,
-        InitialRouteListFactory;
+export 'package:flutter/material.dart' show TextTheme, ThemeMode, RouteFactory, GenerateAppTitle, InitialRouteListFactory;
 export 'package:flutter/widgets.dart';
 
 export 'src/colors.dart';
@@ -33,5 +27,6 @@ export 'src/widget/switch.dart';
 export 'src/widget/text.dart';
 export 'src/widget/toggle.dart';
 export 'src/widget/floating_action_button.dart';
+export 'src/widget/container.dart';
 
 export 'package:flutter/material.dart';
