@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart' as material;
 import 'package:flutter/widgets.dart';
-
-import '../neumorphic_box_shape.dart';
-import '../decoration/neumorphic_decorations.dart';
-import '../theme/neumorphic_theme.dart';
-import 'clipper/neumorphic_box_shape_clipper.dart';
+import 'package:flutter_neumorphic/src/neumorphic_box_shape.dart';
+import 'package:flutter_neumorphic/src/decoration/neumorphic_decorations.dart';
+import 'package:flutter_neumorphic/src/theme/neumorphic_theme.dart';
+import 'package:flutter_neumorphic/src/widget/clipper/neumorphic_box_shape_clipper.dart';
 
 export '../neumorphic_box_shape.dart';
 export '../decoration/neumorphic_decorations.dart';
@@ -56,8 +55,7 @@ class Neumorphic extends StatelessWidget {
   final EdgeInsets margin;
   final Curve curve;
   final Duration duration;
-  final bool
-      drawSurfaceAboveChild; //if true => boxDecoration & foreground decoration, else => boxDecoration does all the work
+  final bool drawSurfaceAboveChild; //if true => boxDecoration & foreground decoration, else => boxDecoration does all the work
 
   Neumorphic({
     Key? key,
@@ -74,9 +72,7 @@ class Neumorphic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = NeumorphicTheme.currentTheme(context);
-    final NeumorphicStyle style = (this.style ?? NeumorphicStyle())
-        .copyWithThemeIfNull(theme)
-        .applyDisableDepth();
+    final NeumorphicStyle style = (this.style ?? NeumorphicStyle()).copyWithThemeIfNull(theme).applyDisableDepth();
 
     return _NeumorphicContainer(
       padding: this.padding,
@@ -118,18 +114,12 @@ class _NeumorphicContainer extends StatelessWidget {
     final shape = this.style.boxShape ?? NeumorphicBoxShape.rect();
 
     return DefaultTextStyle(
-      style: this.textStyle ?? material.Theme.of(context).textTheme.bodyText2!,
+      style: this.textStyle ?? material.Theme.of(context).textTheme.bodyMedium!,
       child: AnimatedContainer(
         margin: this.margin,
         duration: this.duration,
         curve: this.curve,
-        child: NeumorphicBoxShapeClipper(
-          shape: shape,
-          child: Padding(
-            padding: this.padding,
-            child: this.child,
-          ),
-        ),
+        child: NeumorphicBoxShapeClipper(shape: shape, child: Padding(padding: this.padding, child: this.child)),
         foregroundDecoration: NeumorphicDecoration(
           isForeground: true,
           renderingByPath: shape.customShapePathProvider.oneGradientPerPath,

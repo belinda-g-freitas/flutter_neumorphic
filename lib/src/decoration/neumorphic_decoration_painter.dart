@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_neumorphic/src/neumorphic_box_shape.dart';
+import 'package:flutter_neumorphic/src/shape.dart';
 
-import '../neumorphic_box_shape.dart';
-import '../theme/theme.dart';
 import 'cache/neumorphic_painter_cache.dart';
 import 'neumorphic_box_decoration_helper.dart';
 import 'neumorphic_emboss_decoration_painter.dart';

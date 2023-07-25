@@ -1,10 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_neumorphic/src/light_source.dart';
 import 'package:flutter_neumorphic/src/neumorphic_icons.dart';
+import 'package:flutter_neumorphic/src/shape.dart';
+import 'package:flutter_neumorphic/src/widget/button.dart';
 import 'package:flutter_neumorphic/src/widget/container.dart';
-
-import '../neumorphic_box_shape.dart';
-import '../theme/neumorphic_theme.dart';
-import 'button.dart';
 
 typedef void NeumorphicCheckboxListener<T>(T value);
 
@@ -83,7 +82,7 @@ class NeumorphicCheckboxStyle {
 ///
 ///  Widget _buildChecks() {
 ///    return Row(
-///      children: <Widget>[
+///      children: [
 ///
 ///        NeumorphicCheckbox(
 ///          value: check1,
@@ -141,42 +140,27 @@ class NeumorphicCheckbox extends StatelessWidget {
 
   bool get isSelected => this.value;
 
-  void _onClick() {
-    this.onChanged(!this.value);
-  }
+  void _onClick() => this.onChanged(!this.value);
 
   @override
   Widget build(BuildContext context) {
     final NeumorphicThemeData theme = NeumorphicTheme.currentTheme(context);
     final selectedColor = this.style.selectedColor ?? theme.accentColor;
 
-    final double selectedDepth =
-        -1 * (this.style.selectedDepth ?? theme.depth).abs();
-    final double unselectedDepth =
-        (this.style.unselectedDepth ?? theme.depth).abs();
+    final double selectedDepth = -1 * (this.style.selectedDepth ?? theme.depth).abs();
+    final double unselectedDepth = (this.style.unselectedDepth ?? theme.depth).abs();
     final double selectedIntensity =
-        (this.style.selectedIntensity ?? theme.intensity)
-            .abs()
-            .clamp(Neumorphic.MIN_INTENSITY, Neumorphic.MAX_INTENSITY);
-    final double unselectedIntensity = this
-        .style
-        .unselectedIntensity
-        .clamp(Neumorphic.MIN_INTENSITY, Neumorphic.MAX_INTENSITY);
+        (this.style.selectedIntensity ?? theme.intensity).abs().clamp(Neumorphic.MIN_INTENSITY, Neumorphic.MAX_INTENSITY);
+    final double unselectedIntensity = this.style.unselectedIntensity.clamp(Neumorphic.MIN_INTENSITY, Neumorphic.MAX_INTENSITY);
 
     double depth = isSelected ? selectedDepth : unselectedDepth;
-    if (!this.isEnabled) {
-      depth = 0;
-    }
+    if (!this.isEnabled) depth = 0;
 
     Color? color = isSelected ? selectedColor : null;
-    if (!this.isEnabled) {
-      color = null;
-    }
+    if (!this.isEnabled) color = null;
 
     Color iconColor = isSelected ? theme.baseColor : selectedColor;
-    if (!this.isEnabled) {
-      iconColor = theme.disabledColor;
-    }
+    if (!this.isEnabled) iconColor = theme.disabledColor;
 
     return NeumorphicButton(
       padding: this.padding,
@@ -185,17 +169,11 @@ class NeumorphicCheckbox extends StatelessWidget {
       duration: this.duration,
       curve: this.curve,
       onPressed: () {
-        if (this.isEnabled) {
-          _onClick();
-        }
+        if (this.isEnabled) _onClick();
       },
       drawSurfaceAboveChild: true,
       minDistance: selectedDepth.abs(),
-      child: Icon(
-        NeumorphicIcons.check,
-        color: iconColor,
-        size: 20.0,
-      ),
+      child: Icon(NeumorphicIcons.check, color: iconColor, size: 20.0),
       style: NeumorphicStyle(
         boxShape: this.style.boxShape,
         border: this.style.border,

@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/widgets.dart';
-
-import 'container.dart';
+import 'package:flutter_neumorphic/src/light_source.dart';
+import 'package:flutter_neumorphic/src/shape.dart';
+import 'package:flutter_neumorphic/src/widget/container.dart';
 
 /// A Style to customize the [NeumorphicIndicator]
 ///
@@ -77,7 +76,7 @@ enum NeumorphicIndicatorOrientation { vertical, horizontal }
 ///      height: 130,
 ///      child: Row(
 ///        mainAxisAlignment: MainAxisAlignment.center,
-///        children: <Widget>[
+///        children: [
 ///          NeumorphicIndicator(
 ///            width: width,
 ///            percent: 0.4,
@@ -158,8 +157,7 @@ class NeumorphicIndicator extends StatefulWidget {
       curve.hashCode;
 }
 
-class _NeumorphicIndicatorState extends State<NeumorphicIndicator>
-    with TickerProviderStateMixin {
+class _NeumorphicIndicatorState extends State<NeumorphicIndicator> with TickerProviderStateMixin {
   double oldPercent = 0;
   late AnimationController _controller;
   late Animation _animation;
@@ -168,8 +166,7 @@ class _NeumorphicIndicatorState extends State<NeumorphicIndicator>
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: widget.duration);
-    _animation = Tween<double>(begin: widget.percent, end: oldPercent)
-        .animate(_controller);
+    _animation = Tween<double>(begin: widget.percent, end: oldPercent).animate(_controller);
   }
 
   @override
@@ -177,8 +174,7 @@ class _NeumorphicIndicatorState extends State<NeumorphicIndicator>
     if (oldWidget.percent != widget.percent) {
       _controller.reset();
       oldPercent = oldWidget.percent;
-      _animation = Tween<double>(begin: oldPercent, end: widget.percent)
-          .animate(CurvedAnimation(parent: _controller, curve: widget.curve));
+      _animation = Tween<double>(begin: oldPercent, end: widget.percent).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
       _controller.forward();
     }
     super.didUpdateWidget(oldWidget);
@@ -206,45 +202,30 @@ class _NeumorphicIndicatorState extends State<NeumorphicIndicator>
           shape: NeumorphicShape.flat,
         ),
         child: AnimatedBuilder(
-            animation: _animation,
-            builder: (_, __) {
-              return FractionallySizedBox(
-                heightFactor: widget.orientation ==
-                        NeumorphicIndicatorOrientation.vertical
-                    ? _animation.value
-                    : 1,
-                widthFactor: widget.orientation ==
-                        NeumorphicIndicatorOrientation.horizontal
-                    ? _animation.value
-                    : 1,
-                alignment: widget.orientation ==
-                        NeumorphicIndicatorOrientation.horizontal
-                    ? Alignment.centerLeft
-                    : Alignment.bottomCenter,
-                child: Padding(
-                  padding: widget.padding,
-                  child: Neumorphic(
-                    style: NeumorphicStyle(
-                      boxShape: NeumorphicBoxShape.stadium(),
-                      lightSource:
-                          widget.style.lightSource ?? theme.lightSource,
-                    ),
-                    child: Container(
-                        decoration: BoxDecoration(
+          animation: _animation,
+          builder: (_, __) {
+            return FractionallySizedBox(
+              heightFactor: widget.orientation == NeumorphicIndicatorOrientation.vertical ? _animation.value : 1,
+              widthFactor: widget.orientation == NeumorphicIndicatorOrientation.horizontal ? _animation.value : 1,
+              alignment: widget.orientation == NeumorphicIndicatorOrientation.horizontal ? Alignment.centerLeft : Alignment.bottomCenter,
+              child: Padding(
+                padding: widget.padding,
+                child: Neumorphic(
+                  style: NeumorphicStyle(boxShape: NeumorphicBoxShape.stadium(), lightSource: widget.style.lightSource ?? theme.lightSource),
+                  child: Container(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        begin:
-                            widget.style.gradientStart ?? Alignment.topCenter,
+                        begin: widget.style.gradientStart ?? Alignment.topCenter,
                         end: widget.style.gradientEnd ?? Alignment.bottomCenter,
-                        colors: [
-                          widget.style.accent ?? theme.accentColor,
-                          widget.style.variant ?? theme.variantColor
-                        ],
+                        colors: [widget.style.accent ?? theme.accentColor, widget.style.variant ?? theme.variantColor],
                       ),
-                    )),
+                    ),
                   ),
                 ),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

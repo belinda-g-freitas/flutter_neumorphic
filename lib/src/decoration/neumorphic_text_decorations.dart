@@ -1,9 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/widgets.dart';
-
-import 'neumorphic_emboss_decoration_painter.dart';
-import 'neumorphic_text_decoration_painter.dart';
+import 'package:flutter_neumorphic/src/decoration/neumorphic_emboss_decoration_painter.dart';
+import 'package:flutter_neumorphic/src/decoration/neumorphic_text_decoration_painter.dart';
+import 'package:flutter_neumorphic/src/light_source.dart';
 
 @immutable
 class NeumorphicTextDecoration extends Decoration {
@@ -59,16 +58,14 @@ class NeumorphicTextDecoration extends Decoration {
   @override
   NeumorphicTextDecoration? lerpFrom(Decoration? a, double t) {
     if (a == null) return scale(t);
-    if (a is NeumorphicTextDecoration)
-      return NeumorphicTextDecoration.lerp(a, this, t);
+    if (a is NeumorphicTextDecoration) return NeumorphicTextDecoration.lerp(a, this, t);
     return super.lerpFrom(a, t) as NeumorphicTextDecoration;
   }
 
   @override
   NeumorphicTextDecoration? lerpTo(Decoration? b, double t) {
     if (b == null) return scale(1.0 - t);
-    if (b is NeumorphicTextDecoration)
-      return NeumorphicTextDecoration.lerp(this, b, t);
+    if (b is NeumorphicTextDecoration) return NeumorphicTextDecoration.lerp(this, b, t);
     return super.lerpTo(b, t) as NeumorphicTextDecoration;
   }
 
@@ -83,8 +80,7 @@ class NeumorphicTextDecoration extends Decoration {
         style: style.copyWith());
   }
 
-  static NeumorphicTextDecoration? lerp(
-      NeumorphicTextDecoration? a, NeumorphicTextDecoration? b, double t) {
+  static NeumorphicTextDecoration? lerp(NeumorphicTextDecoration? a, NeumorphicTextDecoration? b, double t) {
     //print("lerp $t ${a.style.depth}, ${b.style.depth}");
 
     if (a == null && b == null) return null;
@@ -103,19 +99,19 @@ class NeumorphicTextDecoration extends Decoration {
     var bStyle = b.style;
 
     return NeumorphicTextDecoration(
-        isForeground: a.isForeground,
-        text: a.text,
-        textAlign: a.textAlign,
-        textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? TextStyle(),
-        renderingByPath: a.renderingByPath,
-        style: a.style.copyWith(
-          border: NeumorphicBorder.lerp(aStyle.border, bStyle.border, t),
-          intensity: lerpDouble(aStyle.intensity, bStyle.intensity, t),
-          depth: lerpDouble(aStyle.depth, bStyle.depth, t),
-          color: Color.lerp(aStyle.color, bStyle.color, t),
-          lightSource:
-              LightSource.lerp(aStyle.lightSource, bStyle.lightSource, t),
-        ));
+      isForeground: a.isForeground,
+      text: a.text,
+      textAlign: a.textAlign,
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? TextStyle(),
+      renderingByPath: a.renderingByPath,
+      style: a.style.copyWith(
+        border: NeumorphicBorder.lerp(aStyle.border, bStyle.border, t),
+        intensity: lerpDouble(aStyle.intensity, bStyle.intensity, t),
+        depth: lerpDouble(aStyle.depth, bStyle.depth, t),
+        color: Color.lerp(aStyle.color, bStyle.color, t),
+        lightSource: LightSource.lerp(aStyle.lightSource, bStyle.lightSource, t),
+      ),
+    );
   }
 
   @override
@@ -133,10 +129,5 @@ class NeumorphicTextDecoration extends Decoration {
           renderingByPath == other.renderingByPath;
 
   @override
-  int get hashCode =>
-      style.hashCode ^
-      text.hashCode ^
-      textStyle.hashCode ^
-      isForeground.hashCode ^
-      renderingByPath.hashCode;
+  int get hashCode => style.hashCode ^ text.hashCode ^ textStyle.hashCode ^ isForeground.hashCode ^ renderingByPath.hashCode;
 }

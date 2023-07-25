@@ -1,11 +1,7 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_neumorphic/src/widget/animation/animated_scale.dart'
-    as animationScale;
-
-import '../../flutter_neumorphic.dart';
-import '../neumorphic_box_shape.dart';
-import '../theme/neumorphic_theme.dart';
-import 'container.dart';
+import 'package:flutter_neumorphic/src/light_source.dart';
+import 'package:flutter_neumorphic/src/widget/animation/animated_scale.dart' as animationScale;
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_neumorphic/src/widget/container.dart';
 
 /// A style to customize the [NeumorphicSwitch]
 ///
@@ -84,7 +80,7 @@ class NeumorphicSwitchStyle {
 ///  bool _switch2Value = false;
 ///
 ///  Widget _buildSwitches() {
-///    return Row(children: <Widget>[
+///    return Row(children: [
 ///
 ///      NeumorphicSwitch(
 ///        value: _switch1Value,
@@ -147,12 +143,9 @@ class NeumorphicSwitch extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             // animation breaking prevention
-            if (!this.isEnabled) {
-              return;
-            }
-            if (this.onChanged != null) {
-              this.onChanged!(!this.value);
-            }
+            if (!this.isEnabled) return;
+
+            if (this.onChanged != null) this.onChanged!(!this.value);
           },
           child: Neumorphic(
             drawSurfaceAboveChild: false,
@@ -186,13 +179,7 @@ class NeumorphicSwitch extends StatelessWidget {
     );
   }
 
-  Alignment get _alignment {
-    if (this.value) {
-      return Alignment.centerRight;
-    } else {
-      return Alignment.centerLeft;
-    }
-  }
+  Alignment get _alignment => this.value ? Alignment.centerRight : Alignment.centerLeft;
 
   double get _thumbDepth {
     if (!this.isEnabled) {
@@ -201,9 +188,7 @@ class NeumorphicSwitch extends StatelessWidget {
       return this.style.thumbDepth ?? neumorphicDefaultTheme.depth;
   }
 
-  NeumorphicShape get _getThumbShape {
-    return this.style.thumbShape ?? NeumorphicShape.flat;
-  }
+  NeumorphicShape get _getThumbShape => this.style.thumbShape ?? NeumorphicShape.flat;
 
   double? _getTrackDepth(double? themeDepth) {
     if (themeDepth == null) return themeDepth;
@@ -213,19 +198,13 @@ class NeumorphicSwitch extends StatelessWidget {
   }
 
   Color _getTrackColor(NeumorphicThemeData theme, bool enabled) {
-    if (!enabled) {
-      return this.style.inactiveTrackColor ?? theme.baseColor;
-    }
+    if (!enabled) return this.style.inactiveTrackColor ?? theme.baseColor;
 
-    return this.value == true
-        ? this.style.activeTrackColor ?? theme.accentColor
-        : this.style.inactiveTrackColor ?? theme.baseColor;
+    return this.value == true ? this.style.activeTrackColor ?? theme.accentColor : this.style.inactiveTrackColor ?? theme.baseColor;
   }
 
   Color _getThumbColor(NeumorphicThemeData theme) {
-    Color? color = this.value == true
-        ? this.style.activeThumbColor
-        : this.style.inactiveThumbColor;
+    Color? color = this.value == true ? this.style.activeThumbColor : this.style.inactiveThumbColor;
     return color ?? theme.baseColor;
   }
 }

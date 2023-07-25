@@ -1,22 +1,16 @@
 import 'dart:ui' as ui;
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-
-import '../theme/theme.dart';
-import 'cache/neumorphic_painter_cache.dart';
-import 'neumorphic_box_decoration_helper.dart';
-import 'neumorphic_emboss_decoration_painter.dart';
+import 'package:flutter_neumorphic/src/decoration/cache/neumorphic_painter_cache.dart';
+import 'package:flutter_neumorphic/src/decoration/neumorphic_box_decoration_helper.dart';
+import 'package:flutter_neumorphic/src/decoration/neumorphic_emboss_decoration_painter.dart';
+import 'package:flutter_neumorphic/src/shape.dart';
 
 class NeumorphicEmptyTextPainter extends BoxPainter {
-  NeumorphicEmptyTextPainter({required VoidCallback onChanged})
-      : super(onChanged);
+  NeumorphicEmptyTextPainter({required VoidCallback onChanged}) : super(onChanged);
 
   @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    //does nothing
-  }
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {}
 }
 
 class NeumorphicDecorationTextPainter extends BoxPainter {
@@ -81,22 +75,14 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
 
   void _updateCache(Offset offset, ImageConfiguration configuration) {
     bool invalidateSize = false;
-    if (configuration.size != null) {
-      invalidateSize = this
-          ._cache
-          .updateSize(newOffset: offset, newSize: configuration.size!);
-    }
+    if (configuration.size != null) invalidateSize = this._cache.updateSize(newOffset: offset, newSize: configuration.size!);
 
-    final bool invalidateLightSource = this
-        ._cache
-        .updateLightSource(style.lightSource, style.oppositeShadowLightSource);
+    final bool invalidateLightSource = this._cache.updateLightSource(style.lightSource, style.oppositeShadowLightSource);
 
     bool invalidateColor = false;
     if (style.color != null) {
       invalidateColor = this._cache.updateStyleColor(style.color!);
-      if (invalidateColor) {
-        _backgroundPaint..color = _cache.backgroundColor;
-      }
+      if (invalidateColor) _backgroundPaint..color = _cache.backgroundColor;
     }
 
     bool invalidateDepth = false;
@@ -109,77 +95,54 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
     }
 
     bool invalidateShadowColors = false;
-    if (style.shadowLightColor != null &&
-        style.shadowDarkColor != null &&
-        style.intensity != null) {
+    if (style.shadowLightColor != null && style.shadowDarkColor != null && style.intensity != null) {
       invalidateShadowColors = this._cache.updateShadowColor(
             newShadowLightColorEmboss: style.shadowLightColor!,
             newShadowDarkColorEmboss: style.shadowDarkColor!,
             newIntensity: style.intensity ?? neumorphicDefaultTheme.intensity,
           );
       if (invalidateShadowColors) {
-        if (_cache.shadowLightColor != null) {
-          _whiteShadowPaint..color = _cache.shadowLightColor!;
-        }
-        if (_cache.shadowDarkColor != null) {
-          _blackShadowPaint..color = _cache.shadowDarkColor!;
-        }
+        if (_cache.shadowLightColor != null) _whiteShadowPaint..color = _cache.shadowLightColor!;
+
+        if (_cache.shadowDarkColor != null) _blackShadowPaint..color = _cache.shadowDarkColor!;
       }
     }
 
     final constraints = ui.ParagraphConstraints(width: _cache.width);
-    final paragraphStyle = textStyle.getParagraphStyle(
-        textDirection: TextDirection.ltr, textAlign: this.textAlign);
+    final paragraphStyle = textStyle.getParagraphStyle(textDirection: TextDirection.ltr, textAlign: this.textAlign);
 
     final textParagraphBuilder = ui.ParagraphBuilder(paragraphStyle)
-      ..pushStyle(ui.TextStyle(
-        foreground: _borderPaint,
-      ))
+      ..pushStyle(ui.TextStyle(foreground: _borderPaint))
       ..addText(text);
 
     final innerTextParagraphBuilder = ui.ParagraphBuilder(paragraphStyle)
-      ..pushStyle(ui.TextStyle(
-        foreground: _backgroundPaint,
-      ))
+      ..pushStyle(ui.TextStyle(foreground: _backgroundPaint))
       ..addText(text);
 
     final whiteShadowParagraphBuilder = ui.ParagraphBuilder(paragraphStyle)
-      ..pushStyle(ui.TextStyle(
-        foreground: _whiteShadowPaint,
-      ))
+      ..pushStyle(ui.TextStyle(foreground: _whiteShadowPaint))
       ..addText(text);
 
     final whiteShadowMaskParagraphBuilder = ui.ParagraphBuilder(paragraphStyle)
-      ..pushStyle(ui.TextStyle(
-        foreground: _whiteShadowMaskPaint,
-      ))
+      ..pushStyle(ui.TextStyle(foreground: _whiteShadowMaskPaint))
       ..addText(text);
 
     final blackShadowParagraphBuilder = ui.ParagraphBuilder(paragraphStyle)
-      ..pushStyle(ui.TextStyle(
-        foreground: _blackShadowPaint,
-      ))
+      ..pushStyle(ui.TextStyle(foreground: _blackShadowPaint))
       ..addText(text);
 
     final blackShadowMaskParagraphBuilder = ui.ParagraphBuilder(paragraphStyle)
-      ..pushStyle(ui.TextStyle(
-        foreground: _blackShadowMaskPaint,
-      ))
+      ..pushStyle(ui.TextStyle(foreground: _blackShadowMaskPaint))
       ..addText(text);
 
     _textParagraph = textParagraphBuilder.build()..layout(constraints);
-    _innerTextParagraph = innerTextParagraphBuilder.build()
-      ..layout(constraints);
+    _innerTextParagraph = innerTextParagraphBuilder.build()..layout(constraints);
 
-    _whiteShadowParagraph = whiteShadowParagraphBuilder.build()
-      ..layout(constraints);
-    _whiteShadowMaskParagraph = whiteShadowMaskParagraphBuilder.build()
-      ..layout(constraints);
+    _whiteShadowParagraph = whiteShadowParagraphBuilder.build()..layout(constraints);
+    _whiteShadowMaskParagraph = whiteShadowMaskParagraphBuilder.build()..layout(constraints);
 
-    _blackShadowTextParagraph = blackShadowParagraphBuilder.build()
-      ..layout(constraints);
-    _blackShadowTextMaskParagraph = blackShadowMaskParagraphBuilder.build()
-      ..layout(constraints);
+    _blackShadowTextParagraph = blackShadowParagraphBuilder.build()..layout(constraints);
+    _blackShadowTextMaskParagraph = blackShadowMaskParagraphBuilder.build()..layout(constraints);
 
     //region gradient
     final gradientParagraphBuilder = ui.ParagraphBuilder(paragraphStyle)
@@ -188,24 +151,17 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
           ..shader = getGradientShader(
             gradientRect: Rect.fromLTRB(0, 0, _cache.width, _cache.height),
             intensity: style.surfaceIntensity,
-            source: style.shape == NeumorphicShape.concave
-                ? this.style.lightSource
-                : this.style.lightSource.invert(),
+            source: style.shape == NeumorphicShape.concave ? this.style.lightSource : this.style.lightSource.invert(),
           ),
       ))
       ..addText(text);
 
-    _gradientParagraph = gradientParagraphBuilder.build()
-      ..layout(ui.ParagraphConstraints(width: _cache.width));
+    _gradientParagraph = gradientParagraphBuilder.build()..layout(ui.ParagraphConstraints(width: _cache.width));
     //endregion
 
-    if (invalidateDepth || invalidateLightSource) {
-      _cache.updateDepthOffset();
-    }
+    if (invalidateDepth || invalidateLightSource) _cache.updateDepthOffset();
 
-    if (invalidateLightSource || invalidateDepth || invalidateSize) {
-      _cache.updateTranslations();
-    }
+    if (invalidateLightSource || invalidateDepth || invalidateSize) _cache.updateTranslations();
   }
 
   @override
@@ -217,21 +173,15 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
     _drawElement(offset: offset, canvas: canvas, path: _cache.path);
   }
 
-  void _drawElement(
-      {required Canvas canvas, required Offset offset, required Path path}) {
-    if (true) {
-      _drawBackground(offset: offset, canvas: canvas, path: path);
-    }
-    if (this.drawGradient) {
-      _drawGradient(offset: offset, canvas: canvas, path: path);
-    }
-    if (style.border.isEnabled) {
-      _drawBorder(canvas: canvas, offset: offset, path: path);
-    }
+  void _drawElement({required Canvas canvas, required Offset offset, required Path path}) {
+    if (true) _drawBackground(offset: offset, canvas: canvas, path: path);
+
+    if (this.drawGradient) _drawGradient(offset: offset, canvas: canvas, path: path);
+
+    if (style.border.isEnabled) _drawBorder(canvas: canvas, offset: offset, path: path);
   }
 
-  void _drawBorder(
-      {required Canvas canvas, required Offset offset, required Path path}) {
+  void _drawBorder({required Canvas canvas, required Offset offset, required Path path}) {
     if (style.border.width != null && style.border.width! > 0) {
       canvas
         ..save()
@@ -241,8 +191,7 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
     }
   }
 
-  void _drawBackground(
-      {required Canvas canvas, required Offset offset, required Path path}) {
+  void _drawBackground({required Canvas canvas, required Offset offset, required Path path}) {
     canvas
       ..save()
       ..translate(offset.dx, offset.dy)
@@ -250,13 +199,11 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
       ..restore();
   }
 
-  void _drawShadow(
-      {required Canvas canvas, required Offset offset, required Path path}) {
+  void _drawShadow({required Canvas canvas, required Offset offset, required Path path}) {
     if (style.depth != null && style.depth!.abs() >= 0.1) {
       canvas
         ..saveLayer(_cache.layerRect, _whiteShadowPaint)
-        ..translate(offset.dx + _cache.depthOffset.dx,
-            offset.dy + _cache.depthOffset.dy)
+        ..translate(offset.dx + _cache.depthOffset.dx, offset.dy + _cache.depthOffset.dy)
         ..drawParagraph(_whiteShadowParagraph, Offset.zero)
         ..translate(-_cache.depthOffset.dx, -_cache.depthOffset.dy)
         ..drawParagraph(_whiteShadowMaskParagraph, Offset.zero)
@@ -264,8 +211,7 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
 
       canvas
         ..saveLayer(_cache.layerRect, _blackShadowPaint)
-        ..translate(offset.dx - _cache.depthOffset.dx,
-            offset.dy - _cache.depthOffset.dy)
+        ..translate(offset.dx - _cache.depthOffset.dx, offset.dy - _cache.depthOffset.dy)
         ..drawParagraph(_blackShadowTextParagraph, Offset.zero)
         ..translate(_cache.depthOffset.dx, _cache.depthOffset.dy)
         ..drawParagraph(_blackShadowTextMaskParagraph, Offset.zero)
@@ -273,10 +219,8 @@ class NeumorphicDecorationTextPainter extends BoxPainter {
     }
   }
 
-  void _drawGradient(
-      {required Canvas canvas, required Offset offset, required Path path}) {
-    if (style.shape == NeumorphicShape.concave ||
-        style.shape == NeumorphicShape.convex) {
+  void _drawGradient({required Canvas canvas, required Offset offset, required Path path}) {
+    if (style.shape == NeumorphicShape.concave || style.shape == NeumorphicShape.convex) {
       canvas
         ..saveLayer(_cache.layerRect, _gradientPaint)
         ..translate(offset.dx, offset.dy)

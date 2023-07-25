@@ -1,5 +1,4 @@
-import '../../flutter_neumorphic.dart';
-import 'neumorphic_path_provider.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:math' as math;
 
 class BeveledPathProvider extends NeumorphicPathProvider {
@@ -15,10 +14,7 @@ class BeveledPathProvider extends NeumorphicPathProvider {
   @override
   Path getPath(Size size) {
     final rrect = RRect.fromLTRBAndCorners(0, 0, size.width, size.height,
-        topLeft: borderRadius.topLeft,
-        topRight: borderRadius.topRight,
-        bottomLeft: borderRadius.bottomLeft,
-        bottomRight: borderRadius.bottomRight);
+        topLeft: borderRadius.topLeft, topRight: borderRadius.topRight, bottomLeft: borderRadius.bottomLeft, bottomRight: borderRadius.bottomRight);
     return _getPath(rrect);
   }
 

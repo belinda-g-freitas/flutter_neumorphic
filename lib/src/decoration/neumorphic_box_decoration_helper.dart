@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_neumorphic/src/colors.dart';
+import 'package:flutter_neumorphic/src/light_source.dart';
 
-import '../theme/theme.dart';
 
 Shader getGradientShader(
     {required Rect gradientRect,

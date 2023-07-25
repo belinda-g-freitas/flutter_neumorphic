@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_neumorphic/src/widget/back_button.dart';
 
 class NeumorphicAppBar extends StatefulWidget implements PreferredSizeWidget {
   static const toolbarHeight = kToolbarHeight + 16 * 2;
@@ -43,7 +40,7 @@ class NeumorphicAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// The [actions] become the trailing component of the [NavigationToolBar] built
   /// by this widget. The height of each action is constrained to be no bigger
   /// than the toolbar's height, which is [kToolbarHeight].
-  final List<Widget>? actions;
+  final List? actions;
 
   /// Controls whether we should try to imply the leading widget if null.
   ///

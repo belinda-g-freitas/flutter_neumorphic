@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import '../../flutter_neumorphic.dart';
-import 'inherited_neumorphic_theme.dart';
-import 'theme.dart';
-import 'theme_wrapper.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 export 'inherited_neumorphic_theme.dart';
 export 'theme.dart';
@@ -62,8 +56,7 @@ class NeumorphicTheme extends StatefulWidget {
 
   static NeumorphicThemeInherited? of(BuildContext context) {
     try {
-      return context
-          .dependOnInheritedWidgetOfExactType<NeumorphicThemeInherited>();
+      return context.dependOnInheritedWidgetOfExactType<NeumorphicThemeInherited>();
     } catch (t) {
       return null;
     }
@@ -106,7 +99,7 @@ class NeumorphicTheme extends StatefulWidget {
   }
 
   static double? embossDepth(BuildContext context) {
-    if (currentTheme(context).depth == null) return null;
+    // if (currentTheme(context).depth == null) return null;
     return -currentTheme(context).depth.abs();
   }
 
@@ -117,30 +110,17 @@ class NeumorphicTheme extends StatefulWidget {
   static NeumorphicThemeData currentTheme(BuildContext context) {
     final provider = NeumorphicTheme.of(context);
     if (provider == null) return neumorphicDefaultTheme;
-    return provider.current == null
-        ? neumorphicDefaultTheme
-        : provider.current!;
+    return provider.current == null ? neumorphicDefaultTheme : provider.current!;
   }
 }
 
-double applyThemeDepthEnable(
-    {required BuildContext context,
-    required bool styleEnableDepth,
-    required double depth}) {
+double applyThemeDepthEnable({required BuildContext context, required bool styleEnableDepth, required double depth}) {
   final NeumorphicThemeData theme = NeumorphicTheme.currentTheme(context);
-  return wrapDepthWithThemeData(
-      themeData: theme, styleEnableDepth: styleEnableDepth, depth: depth);
+  return wrapDepthWithThemeData(themeData: theme, styleEnableDepth: styleEnableDepth, depth: depth);
 }
 
-double wrapDepthWithThemeData(
-    {required NeumorphicThemeData themeData,
-    required bool styleEnableDepth,
-    required double depth}) {
-  if (themeData.disableDepth) {
-    return 0;
-  } else {
-    return depth;
-  }
+double wrapDepthWithThemeData({required NeumorphicThemeData themeData, required bool styleEnableDepth, required double depth}) {
+  return themeData.disableDepth ? 0 : depth;
 }
 
 class _NeumorphicThemeState extends State<NeumorphicTheme> {
@@ -172,11 +152,7 @@ class _NeumorphicThemeState extends State<NeumorphicTheme> {
   Widget build(BuildContext context) {
     return NeumorphicThemeInherited(
       value: _themeHost,
-      onChanged: (value) {
-        setState(() {
-          _themeHost = value;
-        });
-      },
+      onChanged: (value) => setState(() => _themeHost = value),
       child: widget.child,
     );
   }

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import '../theme/neumorphic_theme.dart';
-import '../widget/app_bar.dart';
-import 'animation/animated_scale.dart' as animationScale;
-import 'container.dart';
+import 'package:flutter_neumorphic/src/widget/app_bar.dart';
+import 'package:flutter_neumorphic/src/widget/animation/animated_scale.dart' as animationScale;
+import 'package:flutter_neumorphic/src/widget/container.dart';
 
 typedef void NeumorphicButtonClickListener();
 
@@ -92,13 +89,8 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
     final appBarPresent = NeumorphicAppBarTheme.of(context) != null;
 
     final theme = NeumorphicTheme.currentTheme(context);
-    this.initialStyle = widget.style ??
-        (appBarPresent
-            ? theme.appBarTheme.buttonStyle
-            : (theme.buttonStyle ?? const NeumorphicStyle()));
-    depth = widget.style?.depth ??
-        (appBarPresent ? theme.appBarTheme.buttonStyle.depth : theme.depth) ??
-        0.0;
+    this.initialStyle = widget.style ?? (appBarPresent ? theme.appBarTheme.buttonStyle : (theme.buttonStyle ?? const NeumorphicStyle()));
+    depth = widget.style?.depth ?? (appBarPresent ? theme.appBarTheme.buttonStyle.depth : theme.depth) ?? 0.0;
 
     setState(() {});
   }
@@ -203,9 +195,7 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
           drawSurfaceAboveChild: widget.drawSurfaceAboveChild,
           duration: widget.duration,
           curve: widget.curve,
-          padding: widget.padding ??
-              (appBarPresent ? appBarTheme.buttonPadding : null) ??
-              const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          padding: widget.padding ?? (appBarPresent ? appBarTheme.buttonPadding : null) ?? const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
           style: initialStyle.copyWith(
             depth: _getDepth(),
           ),
@@ -226,13 +216,9 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
   double _getScale() {
     if (widget.pressed != null) {
       //defined by the widget that use it
-      return widget.pressed!
-          ? NeumorphicButton.PRESSED_SCALE
-          : NeumorphicButton.UNPRESSED_SCALE;
+      return widget.pressed! ? NeumorphicButton.PRESSED_SCALE : NeumorphicButton.UNPRESSED_SCALE;
     } else {
-      return this.pressed
-          ? NeumorphicButton.PRESSED_SCALE
-          : NeumorphicButton.UNPRESSED_SCALE;
+      return this.pressed ? NeumorphicButton.PRESSED_SCALE : NeumorphicButton.UNPRESSED_SCALE;
     }
   }
 }

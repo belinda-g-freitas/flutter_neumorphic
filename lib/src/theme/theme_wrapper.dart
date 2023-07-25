@@ -1,7 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'theme.dart';
+import 'package:flutter_neumorphic/src/theme/theme.dart';
+
 export 'theme.dart';
 
 /// A immutable contained by the NeumorhicTheme
@@ -22,7 +22,7 @@ class ThemeWrapper {
       //forced to use DARK by user
       themeMode == ThemeMode.dark ||
       //The setting indicating the current brightness mode of the host platform. If the platform has no preference, platformBrightness defaults to Brightness.light.
-      (themeMode == ThemeMode.system && window.platformBrightness == Brightness.dark);
+      (themeMode == ThemeMode.system && PlatformDispatcher.instance.platformBrightness == Brightness.dark);
 
   NeumorphicThemeData? get current => useDark ? darkTheme : theme;
 

@@ -1,7 +1,5 @@
 import 'dart:math';
-
-import '../../flutter_neumorphic.dart';
-import 'neumorphic_path_provider.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class CirclePathProvider extends NeumorphicPathProvider {
   const CirclePathProvider({Listenable? reclip});
@@ -16,9 +14,7 @@ class CirclePathProvider extends NeumorphicPathProvider {
     final middleHeight = size.height / 2;
     final middleWidth = size.width / 2;
     return Path()
-      ..addOval(Rect.fromCircle(
-          center: Offset(middleWidth, middleHeight),
-          radius: min(middleHeight, middleWidth)))
+      ..addOval(Rect.fromCircle(center: Offset(middleWidth, middleHeight), radius: min(middleHeight, middleWidth)))
       ..close();
   }
 
